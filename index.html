@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="paper" data-accent="marigold">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shae Rosemore | Lifecycle, engineered</title>
+<meta name="description" content="Lifecycle marketer and former aerospace manufacturing engineer. Email, SMS and CRM programs built like production lines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  /* Accent palettes: al = paper accent, ad = blueprint accent, hl/hd = handwritten note color (all WCAG AA) */
+  html[data-accent="teal"]       { --al: #0e6f6b; --ad: #5fd0c8; --hl: #a34a26; --hd: #f0a07a; }
+  html[data-accent="terracotta"] { --al: #a9472a; --ad: #f2946f; --hl: #0e6b67; --hd: #6fd3c9; }
+  html[data-accent="marigold"]   { --al: #8a5d00; --ad: #f2c14e; --hl: #a34a26; --hd: #f0a07a; }
+  html[data-accent="petrol"]     { --al: #1f5d78; --ad: #7cc4e0; --hl: #a34a26; --hd: #f0a07a; }
+  html[data-mode="paper"] {
+    --bg: #f5f3ec; --panel: #fbfaf6; --ink: #1f2326; --muted: #585e63; --line: #d2d2cc; --grid: rgba(31,35,38,.06);
+    --accent: var(--al); --hand: var(--hl); --on-accent: #ffffff; --tape: rgba(196,160,100,.42);
+    --accent-soft: color-mix(in srgb, var(--al) 12%, #fbfaf6);
+    --shadow: 0 1px 0 rgba(31,35,38,.06), 0 12px 30px -18px rgba(31,35,38,.35);
+  }
+  html[data-mode="blueprint"] {
+    --bg: #141a20; --panel: #1b232b; --ink: #e9edf0; --muted: #a9b4bd; --line: #34404b; --grid: rgba(233,237,240,.06);
+    --accent: var(--ad); --hand: var(--hd); --on-accent: #141a20; --tape: rgba(196,160,100,.35);
+    --accent-soft: color-mix(in srgb, var(--ad) 14%, #1b232b);
+    --shadow: 0 12px 30px -18px rgba(0,0,0,.6);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--ink); font: 17px/1.55 "Space Grotesk", -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased;
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+  .hand { font-family: "Caveat", "Bradley Hand", "Segoe Print", cursive; font-weight: 600; color: var(--hand); }
+
+  /* Top bar */
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1.5px solid var(--ink); }
+  .top .mono { color: var(--muted); }
+  .top nav a { margin-left: 22px; color: var(--ink); text-decoration: none; }
+  .top nav a:hover { color: var(--accent); }
+  .mode { margin-left: 22px; background: none; border: 1.5px solid var(--ink); color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  .mode:hover { background: var(--ink); color: var(--bg); }
+
+  /* Hero */
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding: 64px 0 40px; }
+  .hello { display: inline-block; font-size: 30px; transform: rotate(-3deg); margin-bottom: 4px; }
+  h1 { font-size: clamp(56px, 8vw, 104px); line-height: .92; letter-spacing: -0.045em; margin: 0 0 22px; font-weight: 700; }
+  h1 span { color: var(--accent); }
+  .intro { font-size: 21px; line-height: 1.45; max-width: 520px; margin: 0 0 26px; }
+  .intro em { font-style: normal; background: linear-gradient(transparent 62%, var(--tape) 62%); }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--ink); color: var(--ink); }
+  .btn.fill { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .btn:hover { transform: translateY(-1px); }
+  .status { margin-top: 26px; display: flex; align-items: center; gap: 10px; color: var(--muted); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+
+  /* Loop diagram */
+  .loop { position: relative; }
+  .loop svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .loop .ring { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+  .loop .arrow { fill: var(--ink); }
+  .node { cursor: pointer; }
+  .node circle { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; transition: all .2s; }
+  .node:hover circle, .node:focus circle { fill: var(--accent); stroke: var(--accent); }
+  .node:hover text.n, .node:focus text.n { fill: var(--on-accent); }
+  .node text.n { font: 600 15px "JetBrains Mono", monospace; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .node text.l { font: 600 16px "Space Grotesk", sans-serif; fill: var(--ink); }
+  .node text.m { font: 500 13px "JetBrains Mono", monospace; fill: var(--accent); }
+  .node:focus { outline: none; }
+  .loop .core { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .loop .core-t { font: 700 20px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); text-anchor: middle; }
+  .loop .core-s { font: 500 11px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: var(--muted); text-anchor: middle; letter-spacing: .06em; }
+  .loop-note { position: absolute; right: 0; bottom: -6px; font-size: 24px; transform: rotate(-4deg); }
+
+  /* Stat strip as gauge readouts */
+  .readouts { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--ink); border-radius: 14px; background: var(--panel); margin: 0; overflow: hidden; align-self: center; }
+  .readouts div:nth-child(2n) { border-right: 0; } .readouts div:nth-child(-n+2) { border-bottom: 1.5px solid var(--ink); }
+  .readouts div { padding: 26px 24px; } .readouts b { font-size: 40px; }
+  .readouts div { padding: 20px 22px; border-right: 1.5px solid var(--ink); }
+  .readouts div:last-child { border-right: 0; }
+  .readouts b { display: block; font-size: 34px; letter-spacing: -0.03em; line-height: 1.05; }
+  .readouts .mono { color: var(--muted); font-size: 11px; }
+
+  /* Section headers */
+  section { padding: 88px 0 20px; }
+  .sh { display: flex; align-items: baseline; gap: 18px; border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; margin-bottom: 34px; }
+  .sh .mono { color: var(--accent); font-size: 13px; }
+  h2 { font-size: clamp(34px, 4.6vw, 52px); letter-spacing: -0.035em; line-height: 1; margin: 0; }
+  .sh .hand { margin-left: auto; font-size: 24px; }
+
+  /* Spec sheets (case studies) */
+  .sheet { background: var(--panel); border: 1.5px solid var(--ink); border-radius: 16px; margin-bottom: 22px; box-shadow: var(--shadow); overflow: hidden; }
+  .sheet summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 90px 1fr 260px 48px; align-items: stretch; }
+  .sheet summary::-webkit-details-marker { display: none; }
+  .sheet summary > * { padding: 24px 22px; }
+  .sheet .no { border-right: 1.5px solid var(--ink); display: flex; flex-direction: column; justify-content: flex-start; }
+  .sheet .no b { font: 600 28px "JetBrains Mono", monospace; }
+  .sheet .no .mono { color: var(--muted); font-size: 10px; }
+  .sheet .ttl h3 { font-size: 26px; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 8px; }
+  .sheet .ttl p { margin: 0 0 12px; color: var(--muted); font-size: 16px; }
+  .sheet .ttl .mono { color: var(--muted); font-size: 11px; }
+  .sheet .met { border-left: 1.5px solid var(--ink); background: var(--accent-soft); display: flex; flex-direction: column; justify-content: center; }
+  .sheet .met b { font-size: 44px; letter-spacing: -0.04em; line-height: 1; color: var(--accent); }
+  .sheet .met span { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .sheet .tog { border-left: 1.5px solid var(--ink); display: flex; align-items: center; justify-content: center; font: 400 28px "JetBrains Mono", ui-monospace, Menlo, monospace; padding: 0; transition: background .2s; }
+  .sheet summary:hover .tog { background: var(--accent); color: var(--on-accent); }
+  .sheet[open] .tog { transform: none; }
+  .sheet[open] .tog::after { content: "\2212"; } .sheet:not([open]) .tog::after { content: "+"; }
+  .sheet .body { border-top: 1.5px solid var(--ink); padding: 34px 36px 38px; }
+  .body .cols { display: grid; grid-template-columns: 1fr 1.25fr; gap: 44px; margin-bottom: 30px; }
+  .body h4 { font: 600 12px "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  .body p, .body li { color: var(--muted); font-size: 16px; }
+  .body p { margin: 0 0 12px; }
+  .body ul { margin: 0; padding-left: 0; list-style: none; counter-reset: s; }
+  .body li { position: relative; padding-left: 34px; margin-bottom: 10px; counter-increment: s; }
+  .body li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 2px; font: 600 12px "JetBrains Mono", ui-monospace, Menlo, monospace; color: var(--accent); }
+  .body strong { color: var(--ink); font-weight: 600; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 30px; }
+  .kpis div { border: 1.5px dashed var(--line); border-radius: 12px; padding: 16px 18px; }
+  .kpis b { display: block; font-size: 28px; letter-spacing: -0.03em; }
+  .kpis span { font-size: 14px; color: var(--muted); }
+  .figs { margin-bottom: 4px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .figs.one { grid-template-columns: 1fr; }
+  .fig { border: 1.5px dashed var(--accent); border-radius: 12px; min-height: 200px; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end;
+         background: repeating-linear-gradient(-45deg, transparent 0 10px, var(--grid) 10px 11px); }
+  .fig .mono { color: var(--accent); }
+  .fig b { display: block; font-size: 18px; margin: 4px 0 2px; }
+  .fig span { font-size: 14px; color: var(--muted); }
+  .footnote { font-size: 13px; color: var(--muted); margin: 18px 0 0; }
+
+  /* Pinned emails */
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; padding: 10px 6px 0; }
+  .pin { position: relative; background: var(--panel); border: 1.5px solid var(--ink); border-radius: 6px; padding: 12px 12px 14px; box-shadow: var(--shadow);
+         cursor: zoom-in; font: inherit; color: inherit; text-align: left; transition: transform .25s; }
+  .pin:nth-child(1) { transform: rotate(-2deg); } .pin:nth-child(2) { transform: rotate(1.5deg); } .pin:nth-child(3) { transform: rotate(-1deg); }
+  .pin:hover { transform: rotate(0) translateY(-4px); }
+  .pin::before { content: ""; position: absolute; top: -12px; left: 50%; width: 92px; height: 24px; margin-left: -46px; background: var(--tape); transform: rotate(-3deg); }
+  .pin img { width: 100%; height: 330px; object-fit: cover; object-position: top; display: block; border-radius: 3px; }
+  .pin .cap { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; gap: 10px; }
+  .pin .cap b { font-size: 16px; }
+  .pin .cap .mono { color: var(--muted); font-size: 10px; }
+  .pin.empty { cursor: default; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 400px; border-style: dashed; text-align: center; }
+  .pin.empty .hand { font-size: 26px; }
+  .pin.empty span { color: var(--muted); font-size: 14px; }
+  dialog.lightbox { border: 0; padding: 0; background: transparent; width: min(620px, 94vw); max-height: 92vh; overflow: auto; }
+  dialog.lightbox::backdrop { background: rgba(14,34,25,.75); backdrop-filter: blur(6px); }
+  dialog.lightbox img { width: 100%; display: block; border-radius: 10px; }
+  dialog.lightbox .x { position: sticky; top: 10px; float: right; margin: 10px 10px -46px 0; width: 36px; height: 36px; border-radius: 50%; border: 0; background: #1f2a24; color: #fff; font-size: 20px; cursor: pointer; }
+
+  /* Experience route */
+  .route { position: relative; }
+  .route::before { content: ""; position: absolute; left: 150px; top: 8px; bottom: 8px; border-left: 2px dashed var(--ink); }
+  .stop { display: grid; grid-template-columns: 150px 1fr; gap: 0; margin-bottom: 26px; position: relative; }
+  .stop .yr { padding-right: 28px; text-align: right; padding-top: 18px; }
+  .stop .yr .mono { color: var(--muted); }
+  .stop .card { margin-left: 34px; background: var(--panel); border: 1.5px solid var(--ink); border-radius: 14px; padding: 18px 22px; display: grid; grid-template-columns: 1fr auto; gap: 6px 24px; align-items: center; }
+  .stop::after { content: ""; position: absolute; left: 143px; top: 22px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 2px solid var(--ink); }
+  .stop.now::after { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+  .stop.eng::after { border-radius: 3px; transform: rotate(45deg); }
+  .stop h3 { margin: 0; font-size: 21px; letter-spacing: -0.01em; }
+  .stop .co { color: var(--muted); font-size: 15px; }
+  .stop .hl { grid-row: span 2; text-align: right; }
+  .stop .hl b { display: block; font-size: 26px; color: var(--accent); letter-spacing: -0.02em; line-height: 1.1; }
+  .stop .hl span { font-size: 13px; color: var(--muted); }
+  .pivot { margin: -6px 0 26px 184px; font-size: 24px; }
+
+  /* BOM */
+  .bom { width: 100%; border-collapse: collapse; background: var(--panel); border: 1.5px solid var(--ink); border-radius: 14px; overflow: hidden; }
+  .bom th, .bom td { text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .bom th { font: 600 11px "JetBrains Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--accent-soft); border-bottom: 1.5px solid var(--ink); }
+  .bom td:first-child { font: 600 13px "JetBrains Mono", ui-monospace, Menlo, monospace; color: var(--accent); width: 70px; }
+  .bom td:nth-child(2) { font-weight: 600; width: 210px; }
+  .bom td:last-child { color: var(--muted); }
+  .bom tr:last-child td { border-bottom: 0; }
+
+  /* Contact */
+  .contact { margin: 90px 0 40px; border: 1.5px solid var(--ink); border-radius: 22px; background: var(--accent); color: var(--on-accent); padding: 56px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; }
+  .contact h2 { color: var(--on-accent); font-size: clamp(40px, 5.5vw, 64px); }
+  .contact p { margin: 14px 0 0; font-size: 19px; opacity: .9; }
+  .contact .links { display: grid; gap: 12px; }
+  .contact .links a { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border: 1.5px solid var(--on-accent); border-radius: 12px; color: var(--on-accent); text-decoration: none; font-weight: 600; }
+  .contact .links a:hover { background: var(--on-accent); color: var(--accent); }
+  footer { display: flex; justify-content: space-between; padding: 24px 0 50px; color: var(--muted); border-top: 1.5px solid var(--ink); }
+
+  @media (max-width: 900px) {
+    .top nav a { display: none; }
+    .hero, .body .cols, .contact { grid-template-columns: 1fr; }
+    .readouts { grid-template-columns: 1fr 1fr; }
+    .readouts div:nth-child(2) { border-right: 0; } .readouts div:nth-child(-n+2) { border-bottom: 1.5px solid var(--ink); }
+    .sheet summary { grid-template-columns: 64px 1fr 48px; }
+    .sheet .met { grid-column: 1 / -1; grid-row: 2; border-left: 0; border-top: 1.5px solid var(--ink); }
+    .sheet .tog { grid-column: 3; grid-row: 1; }
+    .kpis, .figs, .board { grid-template-columns: 1fr; }
+    .sheet .body { padding: 26px 22px; }
+    .route::before { left: 10px; } .stop { grid-template-columns: 1fr; } .stop::after { left: 3px; }
+    .stop .yr { text-align: left; padding: 0 0 6px 34px; } .stop .card { grid-template-columns: 1fr; } .stop .hl { text-align: left; grid-row: auto; }
+    .pivot { margin-left: 34px; }
+    .contact { padding: 34px 26px; }
+    .bom td:nth-child(2) { width: auto; }
+    .sh .hand, .loop-note { display: none; } .sh { gap: 12px; }
+  }
+
+  /* SMS chart */
+  html[data-mode="paper"] { --s-carrier: #b07a00; --s-other: #2f6fa8; }
+  html[data-mode="blueprint"] { --s-carrier: #b88520; --s-other: #5a8fcf; }
+  .chart { position: relative; margin: 0 0 18px; border: 1.5px solid var(--line); border-radius: 12px; padding: 22px 22px 16px; background: var(--panel); }
+  .c-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 8px; }
+  .c-head .mono { color: var(--accent); display: block; }
+  .c-head b { display: block; font-size: 18px; margin: 4px 0 2px; }
+  .c-sub { font-size: 14px; color: var(--muted); }
+  .c-legend { display: flex; gap: 16px; font-size: 13px; color: var(--muted); padding-top: 4px; }
+  .c-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .c-carrier-bg { background: var(--s-carrier); } .c-other-bg { background: var(--s-other); }
+  .c-scroll { overflow-x: auto; }
+  .c-svg { width: 100%; min-width: 640px; height: auto; display: block; }
+  .c-grid { stroke: var(--line); stroke-width: 1; opacity: .7; }
+  .c-base { stroke: var(--muted); stroke-width: 1; }
+  .c-tick { font: 12px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: var(--muted); }
+  .c-carrier { fill: var(--s-carrier); } .c-other { fill: var(--s-other); }
+  .c-ann { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+  .c-mark { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 3 4; }
+  .c-note { font: 500 13px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); }
+  .c-val { font: 600 14px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); }
+  .c-hit { fill: transparent; cursor: crosshair; }
+  .c-hit:hover { fill: var(--grid); }
+  .b-track { fill: var(--grid); stroke: var(--line); stroke-width: 1; }
+  .c-tip { position: absolute; left: 0; top: 0; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 13px; line-height: 1.4; padding: 8px 10px; border-radius: 8px; opacity: 0; transition: opacity .12s; white-space: nowrap; z-index: 3; }
+  .c-tip b { display: block; }
+  .c-table { margin-top: 10px; }
+  .c-table summary { cursor: pointer; color: var(--accent); font-size: 11px; }
+  .c-table table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+  .c-table th, .c-table td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .c-table th:first-child, .c-table td:first-child { text-align: left; }
+  .chart figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* Phone mockup */
+  .pin.phone { cursor: default; padding: 12px; }
+  .device { background: #000; border-radius: 34px; padding: 10px; border: 2px solid #2a2a2e; }
+  .screen { background: #000; border-radius: 26px; height: 404px; display: flex; flex-direction: column; overflow: hidden;
+    font: 14px/1.32 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; color: #fff; }
+  .s-head { text-align: center; padding: 12px 0 8px; border-bottom: 1px solid #1c1c1e; }
+  .s-head .av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(#8e8e93,#636366); margin: 0 auto 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .s-head small { font-size: 11px; color: #c7c7cc; }
+  .s-body { flex: 1; overflow-y: auto; padding: 10px 10px 14px; scrollbar-width: thin; scrollbar-color: #3a3a3c transparent; }
+  .s-tag { text-align: center; font: 600 9.5px "JetBrains Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: #8e8e93; margin: 12px 0 6px; }
+  .s-tag.thread { color: #f2c14e; margin-top: 18px; padding-top: 12px; border-top: 1px dashed #3a3a3c; }
+  .bub { background: #26252a; border-radius: 17px; padding: 8px 12px; max-width: 88%; white-space: pre-line; font-size: 13.5px; }
+  .bub u { color: #4c9cff; text-decoration: underline; }
+
+  /* Journey diagram */
+  .j-svg { width: 100%; min-width: 680px; height: auto; display: block; margin-top: 8px; }
+  .j-box { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
+  .j-old { fill: var(--bg); stroke: var(--muted); }
+  .j-new { fill: var(--accent-soft); stroke: var(--accent); }
+  .j-dash { stroke-dasharray: 5 4; }
+  .j-k { font: 600 10.5px "JetBrains Mono", ui-monospace, Menlo, monospace; letter-spacing: .08em; fill: var(--muted); }
+  .j-t { font: 600 16px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); }
+  .j-chip { fill: var(--bg); stroke: var(--line); stroke-width: 1; }
+  .j-chipt { font: 600 9.5px "JetBrains Mono", ui-monospace, Menlo, monospace; letter-spacing: .06em; fill: var(--ink); }
+  .j-arrow { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .j-head { fill: var(--ink); }
+  .j-lab { font: 500 12px "JetBrains Mono", ui-monospace, Menlo, monospace; fill: var(--muted); }
+  .j-sec { font: 600 12px "JetBrains Mono", ui-monospace, Menlo, monospace; letter-spacing: .12em; fill: var(--muted); }
+  .j-acc { fill: var(--ink); }
+  .j-branch { font: 600 13px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); }
+  .j-note { font: 13px "Space Grotesk", -apple-system, sans-serif; fill: var(--muted); }
+  .j-split { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
+  .j-div { stroke: var(--line); stroke-width: 1; }
+  .j-sw-new { background: var(--accent-soft); border: 1.5px solid var(--accent); }
+  .j-sw-old { background: var(--bg); border: 1.5px solid var(--muted); }
+  .jfig { margin-bottom: 18px; }
+
+  /* B2B funnel */
+  .fn-svg { min-width: 620px; margin-top: 6px; }
+  .fz { stroke: var(--panel); stroke-width: 2; }
+  .f1 { fill: #f0d38c; } .f2 { fill: #ddb04e; } .f3 { fill: #a87300; } .f4 { fill: #5f4000; }
+  .fz-n { font: 700 28px "Space Grotesk", -apple-system, sans-serif; letter-spacing: -0.02em; }
+  .fz-l { font: 600 10.5px "JetBrains Mono", ui-monospace, Menlo, monospace; letter-spacing: .1em; }
+  .f1t, .f2t { fill: #1f2326; } .f3t, .f4t { fill: #ffffff; }
+  .fz-lead { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; }
+  .fz-dot { fill: var(--ink); }
+  .fz-k { font: 600 15px "Space Grotesk", -apple-system, sans-serif; fill: var(--ink); }
+  .fz-d { font: 13px "Space Grotesk", -apple-system, sans-serif; fill: var(--muted); }
+
+  .l-group { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .j-dashl { stroke-dasharray: 4 4; }
+
+  .j-svg.mob { display: none; min-width: 0; max-width: 420px; margin: 8px auto 0; }
+  @media (max-width: 700px) { .j-svg.desk { display: none; } .j-svg.mob { display: block; } .sheet .body { padding: 22px 12px; } .chart { padding: 16px 10px 12px; } }
+
+  /* Cross-sell chart */
+  html[data-mode="paper"] { --x26: #b07a00; --x25: #2f6fa8; }
+  html[data-mode="blueprint"] { --x26: #b88520; --x25: #5a8fcf; }
+  .x-svg.desk { min-width: 0; }
+  .x-svg.mob { display: none; min-width: 0; width: 100%; }
+  .x-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .x-l26 { stroke: var(--x26); } .x-l25 { stroke: var(--x25); }
+  .x-dot { stroke: var(--panel); stroke-width: 2; } .x-l26d { fill: var(--x26); } .x-l25d { fill: var(--x25); }
+  .x-sw26 { background: var(--x26); } .x-sw25 { background: var(--x25); }
+  .x-axis { color: var(--muted); font-size: 10px; margin: 6px 0 -4px; }
+  @media (max-width: 700px) { .x-svg.desk { display: none; } .x-svg.mob { display: block; } }
+
+  /* Desktop / mobile figure swap */
+  svg.mob { display: none; min-width: 0 !important; width: 100%; max-width: 440px; margin: 8px auto 0; }
+  @media (max-width: 700px) { svg.desk { display: none !important; } svg.mob { display: block !important; } }
+
+  /* Keep case study headers inside the card on small screens */
+  .sheet summary > * { min-width: 0; }
+  .sheet .ttl h3 { overflow-wrap: break-word; hyphens: auto; }
+  @media (max-width: 900px) {
+    .sheet summary { grid-template-columns: 52px 1fr 44px; }
+    .sheet summary > * { padding: 18px 14px; }
+    .sheet .no b { font-size: 22px; }
+    .sheet .no .mono { font-size: 8.5px; letter-spacing: .02em; }
+    .sheet .ttl h3 { font-size: 21px; }
+    .sheet .ttl p { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <span class="mono">S. Rosemore / Lifecycle Marketing / Rev. 2026</span>
+    <div>
+      <nav style="display:inline">
+        <a href="#work">Work</a><a href="#emails">Emails</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+      </nav>
+      <button class="mode mono" id="mode" aria-label="Toggle blueprint mode">Blueprint mode</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <span class="hand hello">Hi, I'm Shae.</span>
+      <h1>Lifecycle,<br><span>engineered.</span></h1>
+      <p class="intro">I started as an aerospace manufacturing engineer. Now I build email and SMS programs the same way: <em>measured, tested, and always improving.</em></p>
+      <div class="cta">
+        <a class="btn fill" href="#work">See the work &darr;</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+      <div class="status mono"><span class="dot"></span>Open to remote, full-time lifecycle &amp; CRM roles</div>
+    </div>
+    <div class="readouts">
+      <div><b>5+ yrs</b><span class="mono">Lifecycle: D2C &amp; B2B</span></div>
+      <div><b>13M+</b><span class="mono">Largest audience managed</span></div>
+      <div><b>+118%</b><span class="mono">Cross-sell purchases YoY</span></div>
+      <div><b>4 yrs</b><span class="mono">Aerospace mfg. engineering</span></div>
+    </div>
+  </div>
+
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="sh"><span class="mono">Sec. 01</span><h2>Selected work</h2><span class="hand">open any sheet &darr;</span></div>
+
+    <details class="sheet" id="launches">
+      <summary>
+        <div class="no"><b>01</b></div>
+        <div class="ttl"><h3>A repeatable launch system for new products</h3><p>One reusable playbook that took every new product from brief to a full lifecycle journey.</p><span class="mono">Designer + operator &middot; Journey design &middot; CRM build</span></div>
+        <div class="met"><b>2,000+</b><span>High-ticket conversions across 5 launches</span></div>
+        <div class="tog" aria-hidden="true"></div>
+      </summary>
+      <div class="body">
+        <div class="kpis">
+          <div><b>5</b><span>Full journeys in one year</span></div>
+          <div><b>3 to 4 wks</b><span>Live before launch day</span></div>
+          <div><b>~20</b><span>Emails plus SMS per launch</span></div>
+        </div>
+        <div class="cols">
+          <div><h4>Problem</h4><p>Each new product needed a full email and SMS journey before its first deadline, with no documented process and no added headcount.</p>
+            <h4 style="margin-top:22px">Impact</h4><p>Built the company's repeatable launch system: every new product went live with a full journey, 3 to 4 weeks before launch day. The 5 launches produced <strong>2,000+ high-ticket conversions</strong>.</p></div>
+          <div><h4>What I did</h4><ul>
+            <li><strong>Sequenced by revenue risk:</strong> deadline and onboarding journeys first.</li>
+            <li><strong>Templated the top-performing journey</strong> and rewrote positioning for each audience.</li>
+            <li><strong>Showed the product</strong> with a "sampler" email that previews real product content.</li>
+            <li><strong>Set health benchmarks pre-launch</strong> and fixed low opens within the first sprint.</li>
+          </ul></div>
+        </div>
+<figure class="chart jfig" id="launchFig">
+  <div class="c-head"><div><span class="mono">Fig. 1.1</span><b>The 4-stage launch journey</b><span class="c-sub">Every new product launched with all four stages live</span></div>
+  <div class="c-legend"><span><i class="sw j-sw-new"></i>Launch journey</span><span><i class="sw j-sw-old"></i>Downstream stages</span></div></div>
+  <div class="c-scroll"><svg viewBox="0 0 1000 440" class="j-svg desk" role="img" aria-labelledby="lT lD"><title id="lT">Launch journey: four lifecycle stages</title><desc id="lD">Leads enter Lead nurture, 7 emails and 6 SMS. Registering for a start date moves them to Conversion nurture, 7 emails and 6 SMS. Before each monthly deadline, both leads and registrants also get Last Chance, 7 emails and 8 SMS. A purchase removes them from all three and starts Onboarding, 3 emails. After completing the product, customers move to cross-sell and, if applicable, B2B team offers. Interest in a second product starts a new series.</desc><defs><marker id="lah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="j-head"/></marker></defs><rect x="0" y="22" width="540" height="294" rx="14" class="l-group"/><text x="16" y="44" class="j-sec">PRE-PURCHASE</text><text x="524" y="44" class="j-lab" text-anchor="end">exits on purchase</text><rect x="16" y="60" width="250" height="104" rx="10" class="j-box j-new"/><text x="30" y="82" class="j-k">01 &middot; LEAD</text><text x="30" y="104" class="j-t">Lead nurture</text><text x="30" y="122" class="j-note">Shared an email or phone</text><rect x="30.0" y="136" width="105.6" height="18" rx="9" class="j-chip"/><text x="82.8" y="149" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="141.6" y="136" width="91.2" height="18" rx="9" class="j-chip"/><text x="187.2" y="149" class="j-chipt" text-anchor="middle">SMS &#215;6</text><path d="M141,164 V194" class="j-arrow" marker-end="url(#lah)"/><text x="152" y="176" class="j-lab">registers for</text><text x="152" y="190" class="j-lab">a start date</text><rect x="16" y="196" width="250" height="104" rx="10" class="j-box j-new"/><text x="30" y="218" class="j-k">02 &middot; REGISTRANT</text><text x="30" y="240" class="j-t">Conversion nurture</text><text x="30" y="258" class="j-note">Picked a start date, not yet paid</text><rect x="30.0" y="272" width="105.6" height="18" rx="9" class="j-chip"/><text x="82.8" y="285" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="141.6" y="272" width="91.2" height="18" rx="9" class="j-chip"/><text x="187.2" y="285" class="j-chipt" text-anchor="middle">SMS &#215;6</text><rect x="310" y="60" width="214" height="240" rx="10" class="j-box j-new"/><text x="324" y="82" class="j-k">03 &middot; DEADLINE</text><text x="324" y="104" class="j-t">Last Chance</text><rect x="324.0" y="272" width="105.6" height="18" rx="9" class="j-chip"/><text x="376.8" y="285" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="435.6" y="272" width="91.2" height="18" rx="9" class="j-chip"/><text x="481.2" y="285" class="j-chipt" text-anchor="middle">SMS &#215;8</text><text x="324" y="126" class="j-note">Sent to leads and</text><text x="324" y="144" class="j-note">registrants before each</text><text x="324" y="162" class="j-note">monthly deadline</text><path d="M268,112 H306" class="j-arrow j-dashl" marker-end="url(#lah)"/><path d="M268,248 H306" class="j-arrow j-dashl" marker-end="url(#lah)"/><path d="M542,180 H586" class="j-arrow" marker-end="url(#lah)"/><path d="M620,148 L652,180 L620,212 L588,180 Z" class="j-split"/><text x="620" y="184" class="j-chipt" text-anchor="middle">BUY</text><path d="M654,180 C670,180 670,168 688,168" class="j-arrow" marker-end="url(#lah)"/><rect x="692" y="127" width="190" height="82" rx="10" class="j-box j-new"/><text x="706" y="149" class="j-k">04 &middot; CUSTOMER</text><text x="706" y="171" class="j-t">Onboarding</text><rect x="706.0" y="181" width="105.6" height="18" rx="9" class="j-chip"/><text x="758.8" y="194" class="j-chipt" text-anchor="middle">EMAIL &#215;3</text><path d="M787,209 V240 H700 V258" class="j-arrow" marker-end="url(#lah)"/><path d="M787,240 H894 V258" class="j-arrow" marker-end="url(#lah)"/><text x="797" y="232" class="j-lab">completes product</text><rect x="612" y="262" width="176" height="66" rx="10" class="j-box"/><text x="626" y="284" class="j-k">NEXT</text><text x="626" y="306" class="j-t">Cross-sell</text><text x="626" y="324" class="j-note">See case study 03</text><rect x="806" y="262" width="176" height="66" rx="10" class="j-box"/><text x="820" y="284" class="j-k">NEXT, IF APPLICABLE</text><text x="820" y="306" class="j-t">Team offer</text><text x="820" y="324" class="j-note">See case study 04</text><path d="M700,330 C700,410 141,410 141,322" class="j-arrow j-dashl" marker-end="url(#lah)"/><text x="420" y="402" class="j-lab" text-anchor="middle">interest in a second product starts a new series</text></svg><svg viewBox="0 0 320 790" class="j-svg mob" role="img" aria-labelledby="lT2 lD2"><title id="lT2">Launch journey: four lifecycle stages</title><desc id="lD2">Leads enter Lead nurture, 7 emails and 6 SMS. Registering for a start date moves them to Conversion nurture, 7 emails and 6 SMS. Before each monthly deadline, both leads and registrants also get Last Chance, 7 emails and 8 SMS. A purchase removes them from all three and starts Onboarding, 3 emails. After completing the product, customers move to cross-sell and, if applicable, B2B team offers. Interest in a second product starts a new series.</desc><defs><marker id="lahm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="j-head"/></marker></defs><rect x="14" y="10" width="306" height="436" rx="14" class="l-group"/><text x="26" y="32" class="j-sec">PRE-PURCHASE</text><rect x="24" y="46" width="286" height="100" rx="10" class="j-box j-new"/><text x="38" y="68" class="j-k">01 &middot; LEAD</text><text x="38" y="90" class="j-t">Lead nurture</text><text x="38" y="108" class="j-note">Shared an email or phone</text><rect x="38.0" y="118" width="105.6" height="18" rx="9" class="j-chip"/><text x="90.8" y="131" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="149.6" y="118" width="91.2" height="18" rx="9" class="j-chip"/><text x="195.2" y="131" class="j-chipt" text-anchor="middle">SMS &#215;6</text><path d="M84,146 V176" class="j-arrow" marker-end="url(#lahm)"/><text x="96" y="166" class="j-lab">registers for a start date</text><rect x="24" y="178" width="286" height="100" rx="10" class="j-box j-new"/><text x="38" y="200" class="j-k">02 &middot; REGISTRANT</text><text x="38" y="222" class="j-t">Conversion nurture</text><text x="38" y="240" class="j-note">Picked a start date, not yet paid</text><rect x="38.0" y="250" width="105.6" height="18" rx="9" class="j-chip"/><text x="90.8" y="263" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="149.6" y="250" width="91.2" height="18" rx="9" class="j-chip"/><text x="195.2" y="263" class="j-chipt" text-anchor="middle">SMS &#215;6</text><text x="96" y="300" class="j-lab">leads + registrants also get</text><path d="M84,280 V308" class="j-arrow j-dashl" marker-end="url(#lahm)"/><rect x="24" y="310" width="286" height="124" rx="10" class="j-box j-new"/><text x="38" y="332" class="j-k">03 &middot; DEADLINE</text><text x="38" y="354" class="j-t">Last Chance</text><text x="38" y="374" class="j-note">Before each monthly deadline</text><rect x="38.0" y="404" width="105.6" height="18" rx="9" class="j-chip"/><text x="90.8" y="417" class="j-chipt" text-anchor="middle">EMAIL &#215;7</text><rect x="149.6" y="404" width="91.2" height="18" rx="9" class="j-chip"/><text x="195.2" y="417" class="j-chipt" text-anchor="middle">SMS &#215;8</text><path d="M167.0,446 V478" class="j-arrow" marker-end="url(#lahm)"/><text x="179.0" y="466" class="j-lab">exits on purchase</text><path d="M167.0,480 L195.0,508 L167.0,536 L139.0,508 Z" class="j-split"/><text x="167.0" y="512" class="j-chipt" text-anchor="middle">BUY</text><path d="M167.0,536 V560" class="j-arrow" marker-end="url(#lahm)"/><rect x="24" y="562" width="286" height="80" rx="10" class="j-box j-new"/><text x="38" y="584" class="j-k">04 &middot; CUSTOMER</text><text x="38" y="606" class="j-t">Onboarding</text><rect x="38.0" y="614" width="105.6" height="18" rx="9" class="j-chip"/><text x="90.8" y="627" class="j-chipt" text-anchor="middle">EMAIL &#215;3</text><path d="M167.0,642 V662 H104 V678" class="j-arrow" marker-end="url(#lahm)"/><path d="M167.0,662 H230 V678" class="j-arrow" marker-end="url(#lahm)"/><text x="175.0" y="656" class="j-lab">completes product</text><rect x="18" y="680" width="141.0" height="70" rx="10" class="j-box"/><text x="32" y="702" class="j-k">NEXT</text><text x="32" y="724" class="j-t">Cross-sell</text><text x="32" y="742" class="j-note">Case study 03</text><rect x="171.0" y="680" width="141.0" height="70" rx="10" class="j-box"/><text x="185.0" y="702" class="j-k">IF APPLICABLE</text><text x="185.0" y="724" class="j-t">Team offer</text><text x="185.0" y="742" class="j-note">Case study 04</text><path d="M74,750 V772 H6 V90 H22" class="j-arrow j-dashl" marker-end="url(#lahm)"/><text x="84" y="770" class="j-lab">2nd product: new series</text></svg></div>
+</figure>
+      </div>
+    </details>
+
+    <details class="sheet" id="sms">
+      <summary>
+        <div class="no"><b>02</b></div>
+        <div class="ttl"><h3>Rebuilding an underperforming SMS channel</h3><p>Isolated why texts were failing, cleaned the audience and brought fail rates to near zero.</p><span class="mono">Owner &middot; Deliverability &middot; 10DLC / TCPA &middot; Testing</span></div>
+        <div class="met"><b style="font-size:36px;white-space:nowrap">20% &rarr; 0.3%</b><span>Weekly SMS fail rate, peak to current</span></div>
+        <div class="tog" aria-hidden="true"></div>
+      </summary>
+      <div class="body">
+        <div class="kpis">
+          <div><b>97%</b><span>Fewer failed texts, average before vs. after</span></div>
+          <div><b>~6K</b><span>More texts delivered per peak send day</span></div>
+          <div><b>3</b><span>Tests adopted with no conversion loss</span></div>
+        </div>
+        <div class="cols">
+          <div><h4>Problem</h4><p>Weekly fail rates reached 20%, a carrier began blocking traffic, and an earlier link change failed up to ~40% of one peak-day send.</p>
+            <h4 style="margin-top:22px">Impact</h4><p>Restored SMS as a reliable conversion channel. Failed texts fell 97%, so about <strong>6,000 more messages now reach customers on each peak send day</strong>.</p></div>
+          <div><h4>What I did</h4><ul>
+            <li><strong>Isolated the root causes</strong> of failed sends: carrier filtering, invalid numbers, link reputation and volume spikes.</li>
+            <li><strong>Prioritized 23 fixes</strong> by impact and effort, shipping quick wins first.</li>
+            <li><strong>Cleaned the audience</strong> with fail-send filtering and stale-lead suppression.</li>
+            <li><strong>Implemented carrier best practices and TCPA/FCC compliance updates,</strong> including consent and opt-out language, HELP replies, quiet hours and 10DLC requirements.</li>
+          </ul></div>
+        </div>
+<figure class="chart" id="smsChart">
+  <div class="c-head">
+    <div><span class="mono">Fig. 2.1</span><b>Weekly SMS fail rate</b><span class="c-sub">From a 20% peak to a 0.3% average after fixes shipped</span></div>
+    <div class="c-legend"><span><i class="sw c-carrier-bg"></i>Carrier filtering</span><span><i class="sw c-other-bg"></i>Other failures</span></div>
+  </div>
+  <div class="c-scroll"><svg viewBox="0 0 1000 400" class="desk c-svg" role="img" aria-labelledby="smsTitle smsDesc">
+<title id="smsTitle">Weekly SMS fail rate</title>
+<desc id="smsDesc">Weekly SMS fail rate peaked at 20% during a carrier filtering spike, then dropped to a 0.3% average after list and audience fixes shipped.</desc>
+<line x1="48" x2="985" y1="330.0" y2="330.0" class="c-grid"/><text x="38" y="334.0" class="c-tick" text-anchor="end">0%</text><line x1="48" x2="985" y1="272.0" y2="272.0" class="c-grid"/><text x="38" y="276.0" class="c-tick" text-anchor="end">5%</text><line x1="48" x2="985" y1="214.0" y2="214.0" class="c-grid"/><text x="38" y="218.0" class="c-tick" text-anchor="end">10%</text><line x1="48" x2="985" y1="156.0" y2="156.0" class="c-grid"/><text x="38" y="160.0" class="c-tick" text-anchor="end">15%</text><line x1="48" x2="985" y1="98.0" y2="98.0" class="c-grid"/><text x="38" y="102.0" class="c-tick" text-anchor="end">20%</text><line x1="48" x2="985" y1="40.0" y2="40.0" class="c-grid"/><text x="38" y="44.0" class="c-tick" text-anchor="end">25%</text><line x1="48" x2="985" y1="330" y2="330" class="c-base"/>
+<rect x="55.4" y="260.3" width="20" height="69.7" class="c-other"/><path d="M55.4,258.3 V247.0 Q55.4,243.0 59.4,243.0 H71.4 Q75.4,243.0 75.4,247.0 V258.3 Z" class="c-carrier"/><rect x="90.1" y="262.3" width="20" height="67.7" class="c-other"/><path d="M90.1,260.3 V253.2 Q90.1,249.2 94.1,249.2 H106.1 Q110.1,249.2 110.1,253.2 V260.3 Z" class="c-carrier"/><rect x="124.8" y="273.4" width="20" height="56.6" class="c-other"/><path d="M124.8,271.4 V262.2 Q124.8,258.2 128.8,258.2 H140.8 Q144.8,258.2 144.8,262.2 V271.4 Z" class="c-carrier"/><path d="M159.5,330.0 V273.3 Q159.5,269.3 163.5,269.3 H175.5 Q179.5,269.3 179.5,273.3 V330.0 Z" class="c-other"/><path d="M194.2,330.0 V271.2 Q194.2,267.2 198.2,267.2 H210.2 Q214.2,267.2 214.2,271.2 V330.0 Z" class="c-other"/><path d="M228.9,330.0 V271.9 Q228.9,267.9 232.9,267.9 H244.9 Q248.9,267.9 248.9,271.9 V330.0 Z" class="c-other"/><path d="M263.6,330.0 V278.2 Q263.6,274.2 267.6,274.2 H279.6 Q283.6,274.2 283.6,278.2 V330.0 Z" class="c-other"/><rect x="298.3" y="290.6" width="20" height="39.4" class="c-other"/><path d="M298.3,288.6 V270.9 Q298.3,266.9 302.3,266.9 H314.3 Q318.3,266.9 318.3,270.9 V288.6 Z" class="c-carrier"/><rect x="333.0" y="267.1" width="20" height="62.9" class="c-other"/><path d="M333.0,265.1 V97.0 Q333.0,93.0 337.0,93.0 H349.0 Q353.0,93.0 353.0,97.0 V265.1 Z" class="c-carrier"/><rect x="367.7" y="273.7" width="20" height="56.3" class="c-other"/><path d="M367.7,271.7 V166.0 Q367.7,162.0 371.7,162.0 H383.7 Q387.7,162.0 387.7,166.0 V271.7 Z" class="c-carrier"/><rect x="402.4" y="282.9" width="20" height="47.1" class="c-other"/><path d="M402.4,280.9 V144.2 Q402.4,140.2 406.4,140.2 H418.4 Q422.4,140.2 422.4,144.2 V280.9 Z" class="c-carrier"/><rect x="437.1" y="291.5" width="20" height="38.5" class="c-other"/><path d="M437.1,289.5 V176.9 Q437.1,172.9 441.1,172.9 H453.1 Q457.1,172.9 457.1,176.9 V289.5 Z" class="c-carrier"/><rect x="471.8" y="301.5" width="20" height="28.5" class="c-other"/><path d="M471.8,299.5 V289.8 Q471.8,285.8 475.8,285.8 H487.8 Q491.8,285.8 491.8,289.8 V299.5 Z" class="c-carrier"/><rect x="506.5" y="314.2" width="20" height="15.8" class="c-other"/><path d="M506.5,312.2 V223.1 Q506.5,219.1 510.5,219.1 H522.5 Q526.5,219.1 526.5,223.1 V312.2 Z" class="c-carrier"/><path d="M541.2,330.0 V330.0 Q541.2,326.4 544.8,326.4 H557.6 Q561.2,326.4 561.2,330.0 V330.0 Z" class="c-other"/><path d="M575.9,330.0 V330.0 Q575.9,327.0 578.9,327.0 H592.9 Q595.9,327.0 595.9,330.0 V330.0 Z" class="c-other"/><path d="M610.6,330.0 V330.0 Q610.6,326.6 614.0,326.6 H627.2 Q630.6,326.6 630.6,330.0 V330.0 Z" class="c-other"/><path d="M645.3,330.0 V329.9 Q645.3,325.9 649.3,325.9 H661.3 Q665.3,325.9 665.3,329.9 V330.0 Z" class="c-other"/><path d="M680.0,330.0 V328.1 Q680.0,324.1 684.0,324.1 H696.0 Q700.0,324.1 700.0,328.1 V330.0 Z" class="c-other"/><path d="M714.7,330.0 V330.0 Q714.7,326.3 718.4,326.3 H731.0 Q734.7,326.3 734.7,330.0 V330.0 Z" class="c-other"/><path d="M749.4,330.0 V330.0 Q749.4,327.0 752.4,327.0 H766.4 Q769.4,327.0 769.4,330.0 V330.0 Z" class="c-other"/><path d="M784.1,330.0 V330.0 Q784.1,326.3 787.8,326.3 H800.4 Q804.1,326.3 804.1,330.0 V330.0 Z" class="c-other"/><path d="M818.8,330.0 V330.0 Q818.8,327.1 821.7,327.1 H835.9 Q838.8,327.1 838.8,330.0 V330.0 Z" class="c-other"/><path d="M853.5,330.0 V330.0 Q853.5,326.8 856.8,326.8 H870.3 Q873.5,326.8 873.5,330.0 V330.0 Z" class="c-other"/><path d="M888.2,330.0 V330.0 Q888.2,326.2 892.1,326.2 H904.4 Q908.2,326.2 908.2,330.0 V330.0 Z" class="c-other"/><path d="M922.9,330.0 V328.5 Q922.9,324.5 926.9,324.5 H938.9 Q942.9,324.5 942.9,328.5 V330.0 Z" class="c-other"/><path d="M957.6,330.0 V330.0 Q957.6,326.9 960.8,326.9 H974.5 Q977.6,326.9 977.6,330.0 V330.0 Z" class="c-other"/><path d="M329.6,81.0 V73.0 H529.9 V81.0" class="c-ann"/>
+<text x="429.7" y="65.0" class="c-note" text-anchor="middle">Carrier filtering spike, peak 20.3%</text>
+<line x1="533.9" x2="533.9" y1="110" y2="330" class="c-mark"/>
+<text x="541.9" y="122" class="c-note">Fixes ship: list cleanup, fail-send</text>
+<text x="541.9" y="140" class="c-note">filtering, peak-day audience rules</text>
+<text x="985.0" y="314.9" class="c-val" text-anchor="end">0.3% avg after</text><text x="65.4" y="350" class="c-tick" text-anchor="middle">Wk 1</text><text x="204.2" y="350" class="c-tick" text-anchor="middle">Wk 5</text><text x="343.0" y="350" class="c-tick" text-anchor="middle">Wk 9</text><text x="481.8" y="350" class="c-tick" text-anchor="middle">Wk 13</text><text x="620.6" y="350" class="c-tick" text-anchor="middle">Wk 17</text><text x="759.4" y="350" class="c-tick" text-anchor="middle">Wk 21</text><text x="898.2" y="350" class="c-tick" text-anchor="middle">Wk 25</text></svg><svg viewBox="0 0 340 300" class="c-svg mob" role="img" aria-labelledby="smsTitle2 smsDesc2"><title id="smsTitle2">Weekly SMS fail rate</title><desc id="smsDesc2">Weekly SMS fail rate peaked at 20% during a carrier filtering spike, then dropped to a 0.3% average after list and audience fixes shipped.</desc><line x1="30" x2="334" y1="262.0" y2="262.0" class="c-grid"/><text x="24" y="266.0" class="c-tick" text-anchor="end" style="font-size:11px">0%</text><line x1="30" x2="334" y1="175.6" y2="175.6" class="c-grid"/><text x="24" y="179.6" class="c-tick" text-anchor="end" style="font-size:11px">10%</text><line x1="30" x2="334" y1="89.2" y2="89.2" class="c-grid"/><text x="24" y="93.2" class="c-tick" text-anchor="end" style="font-size:11px">20%</text><line x1="30" x2="334" y1="262" y2="262" class="c-base"/><rect x="32.1" y="210.1" width="7" height="51.9" class="c-other"/><path d="M32.1,208.6 V199.2 Q32.1,197.2 34.1,197.2 H37.1 Q39.1,197.2 39.1,199.2 V208.6 Z" class="c-carrier"/><rect x="43.4" y="211.5" width="7" height="50.5" class="c-other"/><path d="M43.4,210.0 V203.8 Q43.4,201.8 45.4,201.8 H48.4 Q50.4,201.8 50.4,203.8 V210.0 Z" class="c-carrier"/><rect x="54.6" y="219.8" width="7" height="42.2" class="c-other"/><path d="M54.6,218.3 V210.5 Q54.6,208.5 56.6,208.5 H59.6 Q61.6,208.5 61.6,210.5 V218.3 Z" class="c-carrier"/><path d="M65.9,262.0 V218.8 Q65.9,216.8 67.9,216.8 H70.9 Q72.9,216.8 72.9,218.8 V262.0 Z" class="c-other"/><path d="M77.2,262.0 V217.3 Q77.2,215.3 79.2,215.3 H82.2 Q84.2,215.3 84.2,217.3 V262.0 Z" class="c-other"/><path d="M88.4,262.0 V217.8 Q88.4,215.8 90.4,215.8 H93.4 Q95.4,215.8 95.4,217.8 V262.0 Z" class="c-other"/><path d="M99.7,262.0 V222.4 Q99.7,220.4 101.7,220.4 H104.7 Q106.7,220.4 106.7,222.4 V262.0 Z" class="c-other"/><rect x="110.9" y="232.6" width="7" height="29.4" class="c-other"/><path d="M110.9,231.1 V217.0 Q110.9,215.0 112.9,215.0 H115.9 Q117.9,215.0 117.9,217.0 V231.1 Z" class="c-carrier"/><rect x="122.2" y="215.2" width="7" height="46.8" class="c-other"/><path d="M122.2,213.7 V87.5 Q122.2,85.5 124.2,85.5 H127.2 Q129.2,85.5 129.2,87.5 V213.7 Z" class="c-carrier"/><rect x="133.5" y="220.1" width="7" height="41.9" class="c-other"/><path d="M133.5,218.6 V138.9 Q133.5,136.9 135.5,136.9 H138.5 Q140.5,136.9 140.5,138.9 V218.6 Z" class="c-carrier"/><rect x="144.7" y="226.9" width="7" height="35.1" class="c-other"/><path d="M144.7,225.4 V122.6 Q144.7,120.6 146.7,120.6 H149.7 Q151.7,120.6 151.7,122.6 V225.4 Z" class="c-carrier"/><rect x="156.0" y="233.3" width="7" height="28.7" class="c-other"/><path d="M156.0,231.8 V147.0 Q156.0,145.0 158.0,145.0 H161.0 Q163.0,145.0 163.0,147.0 V231.8 Z" class="c-carrier"/><rect x="167.2" y="240.7" width="7" height="21.3" class="c-other"/><path d="M167.2,239.2 V231.1 Q167.2,229.1 169.2,229.1 H172.2 Q174.2,229.1 174.2,231.1 V239.2 Z" class="c-carrier"/><rect x="178.5" y="250.2" width="7" height="11.8" class="c-other"/><path d="M178.5,248.7 V181.4 Q178.5,179.4 180.5,179.4 H183.5 Q185.5,179.4 185.5,181.4 V248.7 Z" class="c-carrier"/><path d="M189.8,262.0 V261.3 Q189.8,259.3 191.8,259.3 H194.8 Q196.8,259.3 196.8,261.3 V262.0 Z" class="c-other"/><path d="M201.0,262.0 V261.8 Q201.0,259.8 203.0,259.8 H206.0 Q208.0,259.8 208.0,261.8 V262.0 Z" class="c-other"/><path d="M212.3,262.0 V261.5 Q212.3,259.5 214.3,259.5 H217.3 Q219.3,259.5 219.3,261.5 V262.0 Z" class="c-other"/><path d="M223.5,262.0 V261.0 Q223.5,259.0 225.5,259.0 H228.5 Q230.5,259.0 230.5,261.0 V262.0 Z" class="c-other"/><path d="M234.8,262.0 V259.6 Q234.8,257.6 236.8,257.6 H239.8 Q241.8,257.6 241.8,259.6 V262.0 Z" class="c-other"/><path d="M246.1,262.0 V261.2 Q246.1,259.2 248.1,259.2 H251.1 Q253.1,259.2 253.1,261.2 V262.0 Z" class="c-other"/><path d="M257.3,262.0 V261.8 Q257.3,259.8 259.3,259.8 H262.3 Q264.3,259.8 264.3,261.8 V262.0 Z" class="c-other"/><path d="M268.6,262.0 V261.2 Q268.6,259.2 270.6,259.2 H273.6 Q275.6,259.2 275.6,261.2 V262.0 Z" class="c-other"/><path d="M279.8,262.0 V261.8 Q279.8,259.8 281.8,259.8 H284.8 Q286.8,259.8 286.8,261.8 V262.0 Z" class="c-other"/><path d="M291.1,262.0 V261.6 Q291.1,259.6 293.1,259.6 H296.1 Q298.1,259.6 298.1,261.6 V262.0 Z" class="c-other"/><path d="M302.4,262.0 V261.1 Q302.4,259.1 304.4,259.1 H307.4 Q309.4,259.1 309.4,261.1 V262.0 Z" class="c-other"/><path d="M313.6,262.0 V259.9 Q313.6,257.9 315.6,257.9 H318.6 Q320.6,257.9 320.6,259.9 V262.0 Z" class="c-other"/><path d="M324.9,262.0 V261.7 Q324.9,259.7 326.9,259.7 H329.9 Q331.9,259.7 331.9,261.7 V262.0 Z" class="c-other"/><text x="35.6" y="280" class="c-tick" text-anchor="middle" style="font-size:11px">Wk 1</text><text x="125.7" y="280" class="c-tick" text-anchor="middle" style="font-size:11px">Wk 9</text><text x="193.3" y="280" class="c-tick" text-anchor="middle" style="font-size:11px">Wk 15</text><text x="334.0" y="280" class="c-tick" text-anchor="end" style="font-size:11px">Wk 27</text><path d="M122.1,79.0 V73.0 H185.6 V79.0" class="c-ann"/><text x="153.9" y="67.0" class="c-note" text-anchor="middle" style="font-size:12px">Carrier spike, peak 20%</text><line x1="187.6" x2="187.6" y1="116" y2="262" class="c-mark"/><text x="193.6" y="128" class="c-note" style="font-size:12px">Fixes ship</text><text x="334.0" y="249.4" class="c-val" text-anchor="end" style="font-size:13px">0.3% avg after</text></svg></div>
+</figure>
+      </div>
+    </details>
+
+    <details class="sheet" id="cross-sell">
+      <summary>
+        <div class="no"><b>03</b></div>
+        <div class="ttl"><h3>Doubling repeat purchases through cross-sell</h3><p>Built the cross-sell program around the paths customers actually take.</p><span class="mono">Owner &middot; Email + SMS &middot; Retention &middot; Expansion revenue &middot; Segmentation</span></div>
+        <div class="met"><b>+118%</b><span>High-ticket cross-sell purchases, year over year</span></div>
+        <div class="tog" aria-hidden="true"></div>
+      </summary>
+      <div class="body">
+        <div class="kpis">
+          <div><b>2% &rarr; 4%</b><span>Cross-sell share of all purchases</span></div>
+          <div><b>~2x</b><span>Cross-sell bookings YoY</span></div>
+          <div><b>~43%</b><span>Of cross-sell from one anchor path</span></div>
+        </div>
+        <div class="cols">
+          <div><h4>Problem</h4><p>Most customers arrived on a single product page and never saw the rest of a growing catalog. Cross-sell depended almost entirely on lifecycle.</p>
+            <h4 style="margin-top:22px">Impact</h4><p>Made cross-sell a core growth lever. Cross-sell purchases more than doubled and grew from about 2% to 4% of all purchases, <strong>growing expansion revenue from existing customers without new acquisition spend</strong>.</p></div>
+          <div><h4>What I did</h4><ul>
+            <li><strong>Mapped real purchase paths;</strong> an entry-to-advanced path became the anchor.</li>
+            <li><strong>Rebuilt the core flow</strong> so recent customers get a clear, timely next step.</li>
+            <li><strong>Re-engaged past leads</strong> with better-fit products, personalized to the product they first viewed.</li>
+            <li><strong>Protected list health</strong> with suppression rules and by retiring low-performing series.</li>
+          </ul></div>
+        </div>
+<figure class="chart" id="xsellChart">
+  <div class="c-head"><div><span class="mono">Fig. 3.1</span><b>Monthly cross-sell purchases, this year vs. last year</b><span class="c-sub">Ahead of last year in every month, more than double overall</span></div>
+  <div class="c-legend"><span><i class="sw x-sw26"></i>This year</span><span><i class="sw x-sw25"></i>Last year</span></div></div>
+  <div class="x-axis mono">Index &middot; last year's monthly average = 100</div>
+  <div class="c-scroll"><svg viewBox="0 0 1000 340" class="c-svg x-svg desk" role="img" aria-labelledby="xs1T xs1D"><title id="xs1T">Monthly cross-sell purchases, this year vs. last year</title><desc id="xs1D">Indexed to last year's monthly average. Every month this year ran ahead of the same month last year, at roughly one and a half to three times last year's monthly average.</desc><line x1="60" x2="940" y1="300.0" y2="300.0" class="c-grid"/><text x="52" y="304.0" class="c-tick" text-anchor="end" style="font-size:12px">0</text><line x1="60" x2="940" y1="222.9" y2="222.9" class="c-grid"/><text x="52" y="226.9" class="c-tick" text-anchor="end" style="font-size:12px">100</text><line x1="60" x2="940" y1="145.7" y2="145.7" class="c-grid"/><text x="52" y="149.7" class="c-tick" text-anchor="end" style="font-size:12px">200</text><line x1="60" x2="940" y1="68.6" y2="68.6" class="c-grid"/><text x="52" y="72.6" class="c-tick" text-anchor="end" style="font-size:12px">300</text><line x1="60" x2="940" y1="300" y2="300" class="c-base"/><polyline points="60.0,263.8 157.8,258.2 255.6,258.2 353.3,249.9 451.1,197.0 548.9,233.2 646.7,216.5 744.4,163.5 842.2,213.7 940.0,174.7" class="x-line x-l25"/><circle cx="940.0" cy="174.7" r="4.5" class="x-dot x-l25d"/><polyline points="60.0,124.5 157.8,183.0 255.6,144.0 353.3,93.9 451.1,124.5 548.9,71.6 646.7,130.1 744.4,116.2 842.2,149.6 940.0,146.8" class="x-line x-l26"/><circle cx="940.0" cy="146.8" r="4.5" class="x-dot x-l26d"/><text x="60.0" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Jan</text><text x="157.8" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Feb</text><text x="255.6" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Mar</text><text x="353.3" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Apr</text><text x="451.1" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">May</text><text x="548.9" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Jun</text><text x="646.7" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Jul</text><text x="744.4" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Aug</text><text x="842.2" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Sep</text><text x="940.0" y="320" class="c-tick" text-anchor="middle" style="font-size:12px">Oct</text></svg><svg viewBox="0 0 340 280" class="c-svg x-svg mob" role="img" aria-labelledby="xs2T xs2D"><title id="xs2T">Monthly cross-sell purchases, this year vs. last year</title><desc id="xs2D">Indexed to last year's monthly average. Every month this year ran ahead of the same month last year, at roughly one and a half to three times last year's monthly average.</desc><line x1="34" x2="326" y1="246.0" y2="246.0" class="c-grid"/><text x="26" y="250.0" class="c-tick" text-anchor="end" style="font-size:11px">0</text><line x1="34" x2="326" y1="182.6" y2="182.6" class="c-grid"/><text x="26" y="186.6" class="c-tick" text-anchor="end" style="font-size:11px">100</text><line x1="34" x2="326" y1="119.1" y2="119.1" class="c-grid"/><text x="26" y="123.1" class="c-tick" text-anchor="end" style="font-size:11px">200</text><line x1="34" x2="326" y1="55.7" y2="55.7" class="c-grid"/><text x="26" y="59.7" class="c-tick" text-anchor="end" style="font-size:11px">300</text><line x1="34" x2="326" y1="246" y2="246" class="c-base"/><polyline points="34.0,216.2 66.4,211.7 98.9,211.7 131.3,204.8 163.8,161.3 196.2,191.0 228.7,177.3 261.1,133.8 293.6,175.0 326.0,143.0" class="x-line x-l25"/><circle cx="326.0" cy="143.0" r="4.5" class="x-dot x-l25d"/><polyline points="34.0,101.7 66.4,149.8 98.9,117.8 131.3,76.6 163.8,101.7 196.2,58.2 228.7,106.3 261.1,94.9 293.6,122.3 326.0,120.1" class="x-line x-l26"/><circle cx="326.0" cy="120.1" r="4.5" class="x-dot x-l26d"/><text x="34.0" y="266" class="c-tick" text-anchor="middle" style="font-size:11px">Jan</text><text x="131.3" y="266" class="c-tick" text-anchor="middle" style="font-size:11px">Apr</text><text x="228.7" y="266" class="c-tick" text-anchor="middle" style="font-size:11px">Jul</text><text x="326.0" y="266" class="c-tick" text-anchor="middle" style="font-size:11px">Oct</text></svg></div>
+</figure>
+      </div>
+    </details>
+
+    <details class="sheet" id="b2b">
+      <summary>
+        <div class="no"><b>04</b></div>
+        <div class="ttl"><h3>Turning existing customers into B2B deals</h3><p>A branching email and SMS series that starts sales conversations with past customers, and helps accounts expand.</p><span class="mono">Owner &middot; Email + SMS &middot; Sender strategy &middot; Sales handoff &middot; Attribution</span></div>
+        <div class="met"><b>~14%</b><span>Of B2B bookings driven by lifecycle nurture series</span></div>
+        <div class="tog" aria-hidden="true"></div>
+      </summary>
+      <div class="body">
+        <div class="kpis">
+          <div><b>~$100K</b><span>In closed B2B deals</span></div>
+          <div><b>~40</b><span>Hand-raises from past customers</span></div>
+          <div><b>5+</b><span>Industries reached</span></div>
+        </div>
+        <div class="cols">
+          <div><h4>Problem</h4><p>Past customers were the warmest B2B leads, and many were managers who could buy for their teams. There was no lifecycle program built to reach them or to show its impact on deals.</p>
+            <h4 style="margin-top:22px">Impact</h4><p>Established the company's first B2B lifecycle nurture: an always-on journey that turns past customers into team deals.</p>
+            <p>Accounts engaged by the series represent <strong>about 14% of all B2B bookings, roughly $100K</strong>, as B2B has become a core focus for company growth. Industries reached include manufacturing, insurance, government, nonprofit and education.</p></div>
+          <div><h4>What I did</h4><ul>
+            <li><strong>Refined the audience</strong> to target returning customers in leadership and decision-making roles.</li>
+            <li><strong>Built an HR branch</strong> plus a general branch, then relaunched with SMS and an unopened resend.</li>
+            <li><strong>Set up the sales handoff</strong> for anyone who raised a hand.</li>
+            <li><strong>Diagnosed an open-rate drop</strong> to an unfamiliar sender and shipped a recognizable, product-branded sender.</li>
+            <li><strong>Drove account expansion.</strong> At an industrial manufacturer, an insurer and a university department, past individual buyers received the series and their organizations came back for larger team deals.</li>
+          </ul></div>
+        </div>
+<figure class="chart jfig">
+  <div class="c-head"><div><span class="mono">Fig. 4.1</span><b>Branching journey, before and after</b><span class="c-sub">One email became a branched email + SMS sequence with a resend and a sales handoff</span></div>
+  <div class="c-legend"><span><i class="sw j-sw-new"></i>New in relaunch</span><span><i class="sw j-sw-old"></i>Original / shared</span></div></div>
+  <div class="c-scroll"><svg viewBox="0 0 1000 450" class="desk j-svg" role="img" aria-labelledby="jT jD"><title id="jT">B2B outreach journey, before and after</title><desc id="jD">Before: one email 14 days after a customer completes their purchase, sent to two product lines. After: on day 14, customers branch by product line into an HR branch or a general branch. Each branch sends an email and an SMS on day 14 and a resend to non-openers on day 15. Interested customers fill out a group inquiry form, which starts a sales follow-up sequence.</desc><defs><marker id="jah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="j-head"/></marker></defs><text x="0" y="22" class="j-sec">BEFORE</text><rect x="0" y="36" width="170" height="58" rx="10" class="j-box j-old"/><text x="14" y="58" class="j-k">DAY 0</text><text x="14" y="80" class="j-t">Completion</text><path d="M176,65 H372" class="j-arrow" marker-end="url(#jah)"/><text x="274" y="57" class="j-lab" text-anchor="middle">14 days</text><rect x="380" y="36" width="270" height="58" rx="10" class="j-box j-old"/><text x="394" y="58" class="j-k">DAY 14</text><text x="394" y="80" class="j-t">Single email</text><rect x="589.0" y="46" width="47.0" height="18" rx="9" class="j-chip"/><text x="612.5" y="59" class="j-chipt" text-anchor="middle">EMAIL</text><text x="666" y="62" class="j-note">2 product lines, one message,</text><text x="666" y="80" class="j-note">no follow-up, no branching</text><line x1="0" x2="1000" y1="122" y2="122" class="j-div"/><text x="0" y="156" class="j-sec j-acc">AFTER</text><rect x="0" y="252" width="150" height="58" rx="10" class="j-box"/><text x="14" y="274" class="j-k">DAY 0</text><text x="14" y="296" class="j-t">Completion</text><path d="M156,281 H222" class="j-arrow" marker-end="url(#jah)"/><text x="189" y="272" class="j-lab" text-anchor="middle">14 days</text><path d="M255,250 L286,281 L255,312 L224,281 Z" class="j-split"/><text x="255" y="285" class="j-chipt" text-anchor="middle">SPLIT</text><text x="214" y="342" class="j-lab" text-anchor="middle">by product line</text><path d="M270,266 C300,266 300,208 334,208" class="j-arrow" marker-end="url(#jah)"/><text x="344" y="166" class="j-branch">HR product line</text><rect x="340" y="176" width="220" height="64" rx="10" class="j-box j-new"/><text x="354" y="198" class="j-k">DAY 14</text><text x="354" y="220" class="j-t">Email 1 + SMS</text><rect x="513.8" y="186" width="32.2" height="18" rx="9" class="j-chip"/><text x="529.9" y="199" class="j-chipt" text-anchor="middle">SMS</text><rect x="460.8" y="186" width="47.0" height="18" rx="9" class="j-chip"/><text x="484.3" y="199" class="j-chipt" text-anchor="middle">EMAIL</text><path d="M566,208 H594" class="j-arrow" marker-end="url(#jah)"/><rect x="600" y="176" width="190" height="64" rx="10" class="j-box j-new j-dash"/><text x="614" y="198" class="j-k">DAY 15</text><text x="614" y="220" class="j-t">Resend if unopened</text><rect x="729.0" y="186" width="47.0" height="18" rx="9" class="j-chip"/><text x="752.5" y="199" class="j-chipt" text-anchor="middle">EMAIL</text><path d="M270,296 C300,296 300,386 334,386" class="j-arrow" marker-end="url(#jah)"/><text x="344" y="344" class="j-branch">All other product lines</text><rect x="340" y="354" width="220" height="64" rx="10" class="j-box j-new"/><text x="354" y="376" class="j-k">DAY 14</text><text x="354" y="398" class="j-t">Email 1 + SMS</text><rect x="513.8" y="364" width="32.2" height="18" rx="9" class="j-chip"/><text x="529.9" y="377" class="j-chipt" text-anchor="middle">SMS</text><rect x="460.8" y="364" width="47.0" height="18" rx="9" class="j-chip"/><text x="484.3" y="377" class="j-chipt" text-anchor="middle">EMAIL</text><path d="M566,386 H594" class="j-arrow" marker-end="url(#jah)"/><rect x="600" y="354" width="190" height="64" rx="10" class="j-box j-new j-dash"/><text x="614" y="376" class="j-k">DAY 15</text><text x="614" y="398" class="j-t">Resend if unopened</text><rect x="729.0" y="364" width="47.0" height="18" rx="9" class="j-chip"/><text x="752.5" y="377" class="j-chipt" text-anchor="middle">EMAIL</text><path d="M796,208 C826,208 826,262 850,262" class="j-arrow" marker-end="url(#jah)"/><path d="M796,386 C826,386 826,300 850,300" class="j-arrow" marker-end="url(#jah)"/><rect x="856" y="248" width="144" height="66" rx="10" class="j-box"/><text x="870" y="270" class="j-k">HAND-RAISE</text><text x="870" y="292" class="j-t">Inquiry form</text><path d="M928,320 V366" class="j-arrow" marker-end="url(#jah)"/><rect x="856" y="372" width="144" height="62" rx="10" class="j-box"/><text x="870" y="394" class="j-k">SALES</text><text x="870" y="416" class="j-t">Follow-up seq.</text><text x="344" y="260" class="j-note">HR-specific content</text><text x="344" y="438" class="j-note">Product-agnostic content</text></svg><svg viewBox="0 0 320 716" class="j-svg mob" role="img" aria-labelledby="jT2 jD2"><title id="jT2">B2B outreach journey, before and after</title><desc id="jD2">Before: one email 14 days after a customer completes their purchase. After: customers branch by product line into an HR branch or a general branch. Each sends an email and an SMS on day 14 and a resend to non-openers on day 15. Interested customers fill out a group inquiry form, which starts a sales follow-up sequence.</desc><defs><marker id="jahm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="j-head"/></marker></defs><text x="0" y="16" class="j-sec">BEFORE</text><rect x="0" y="28" width="320" height="52" rx="10" class="j-box j-old"/><text x="12" y="48" class="j-k">DAY 0</text><text x="12" y="68" class="j-t" style="font-size:15px">Completion</text><path d="M160,80 V108" class="j-arrow" marker-end="url(#jahm)"/><text x="170" y="98" class="j-lab">14 days</text><rect x="0" y="110" width="320" height="70" rx="10" class="j-box j-old"/><text x="12" y="130" class="j-k">DAY 14</text><text x="12" y="150" class="j-t" style="font-size:15px">Single email</text><text x="12" y="168" class="j-note" style="font-size:12px">2 product lines, no follow-up</text><line x1="0" x2="320" y1="204" y2="204" class="j-div"/><text x="0" y="232" class="j-sec j-acc">AFTER</text><rect x="0" y="244" width="320" height="52" rx="10" class="j-box"/><text x="12" y="264" class="j-k">DAY 0</text><text x="12" y="284" class="j-t" style="font-size:15px">Completion</text><path d="M160,296 V320" class="j-arrow" marker-end="url(#jahm)"/><text x="170" y="312" class="j-lab">14 days, then split</text><path d="M160,322 H80 V342" class="j-arrow" marker-end="url(#jahm)"/><path d="M160,322 H240 V342" class="j-arrow" marker-end="url(#jahm)"/><text x="0" y="358" class="j-branch" style="font-size:12px">HR line</text><rect x="0" y="366" width="154" height="76" rx="10" class="j-box j-new"/><text x="12" y="386" class="j-k">DAY 14</text><text x="12" y="406" class="j-t" style="font-size:14px">Email 1 + SMS</text><rect x="12.0" y="418" width="43.0" height="16" rx="8" class="j-chip"/><text x="33.5" y="429.5" class="j-chipt" text-anchor="middle">EMAIL</text><rect x="60.0" y="418" width="29.8" height="16" rx="8" class="j-chip"/><text x="74.9" y="429.5" class="j-chipt" text-anchor="middle">SMS</text><path d="M77.0,442 V460" class="j-arrow" marker-end="url(#jahm)"/><rect x="0" y="462" width="154" height="76" rx="10" class="j-box j-new j-dash"/><text x="12" y="482" class="j-k">DAY 15</text><text x="12" y="502" class="j-t" style="font-size:14px">Resend</text><rect x="12.0" y="514" width="43.0" height="16" rx="8" class="j-chip"/><text x="33.5" y="525.5" class="j-chipt" text-anchor="middle">EMAIL</text><text x="77.0" y="556" class="j-note" text-anchor="middle" style="font-size:11.5px">HR-specific content</text><text x="166" y="358" class="j-branch" style="font-size:12px">All other lines</text><rect x="166" y="366" width="154" height="76" rx="10" class="j-box j-new"/><text x="178" y="386" class="j-k">DAY 14</text><text x="178" y="406" class="j-t" style="font-size:14px">Email 1 + SMS</text><rect x="178.0" y="418" width="43.0" height="16" rx="8" class="j-chip"/><text x="199.5" y="429.5" class="j-chipt" text-anchor="middle">EMAIL</text><rect x="226.0" y="418" width="29.8" height="16" rx="8" class="j-chip"/><text x="240.9" y="429.5" class="j-chipt" text-anchor="middle">SMS</text><path d="M243.0,442 V460" class="j-arrow" marker-end="url(#jahm)"/><rect x="166" y="462" width="154" height="76" rx="10" class="j-box j-new j-dash"/><text x="178" y="482" class="j-k">DAY 15</text><text x="178" y="502" class="j-t" style="font-size:14px">Resend</text><rect x="178.0" y="514" width="43.0" height="16" rx="8" class="j-chip"/><text x="199.5" y="525.5" class="j-chipt" text-anchor="middle">EMAIL</text><text x="243.0" y="556" class="j-note" text-anchor="middle" style="font-size:11.5px">Product-agnostic content</text><path d="M77,564 V580 H160 V598" class="j-arrow" marker-end="url(#jahm)"/><path d="M243,564 V580 H160 V598" class="j-arrow" marker-end="url(#jahm)"/><rect x="0" y="600" width="320" height="48" rx="10" class="j-box"/><text x="12" y="620" class="j-k">HAND-RAISE</text><text x="12" y="640" class="j-t" style="font-size:15px">Inquiry form</text><path d="M160,648 V662" class="j-arrow" marker-end="url(#jahm)"/><rect x="0" y="664" width="320" height="48" rx="10" class="j-box"/><text x="12" y="684" class="j-k">SALES</text><text x="12" y="704" class="j-t" style="font-size:15px">Follow-up sequence</text></svg></div>
+</figure>
+<figure class="chart" id="b2bFunnel">
+  <div class="c-head"><div><span class="mono">Fig. 4.2</span><b>From past customers to booked accounts</b><span class="c-sub">B2B lifecycle series to past customers</span></div></div>
+  <div class="c-scroll"><svg viewBox="0 0 1000 360" class="desk c-svg fn-svg" role="img" aria-labelledby="fT fD"><title id="fT">B2B funnel</title><desc id="fD">About 7,300 emails sent to past customers, about 2,100 engagements (opens plus clicks), about 40 hand-raises sent to sales, and 8 accounts booked after engaging.</desc><polygon points="20.0,20 640.0,20 565.0,94 95.0,94" class="fz f1" stroke-linejoin="round"/><text x="330" y="56" class="fz-n f1t" text-anchor="middle">7,300</text><text x="330" y="78" class="fz-l f1t" text-anchor="middle">SENT</text><line x1="612.5" x2="700" y1="57.0" y2="57.0" class="fz-lead"/><circle cx="700" cy="57.0" r="3" class="fz-dot"/><text x="716" y="53.0" class="fz-k">01 &middot; Sent</text><text x="716" y="73.0" class="fz-d">Emails to past customers</text><polygon points="95.0,102 565.0,102 495.0,176 165.0,176" class="fz f2" stroke-linejoin="round"/><text x="330" y="138" class="fz-n f2t" text-anchor="middle">2,100</text><text x="330" y="160" class="fz-l f2t" text-anchor="middle">ENGAGEMENTS</text><line x1="540.0" x2="700" y1="139.0" y2="139.0" class="fz-lead"/><circle cx="700" cy="139.0" r="3" class="fz-dot"/><text x="716" y="135.0" class="fz-k">02 &middot; Engagements</text><text x="716" y="155.0" class="fz-d">Opens + clicks</text><polygon points="165.0,184 495.0,184 435.0,258 225.0,258" class="fz f3" stroke-linejoin="round"/><text x="330" y="220" class="fz-n f3t" text-anchor="middle">~40</text><text x="330" y="242" class="fz-l f3t" text-anchor="middle">HAND-RAISES</text><line x1="475.0" x2="700" y1="221.0" y2="221.0" class="fz-lead"/><circle cx="700" cy="221.0" r="3" class="fz-dot"/><text x="716" y="217.0" class="fz-k">03 &middot; Hand-raises</text><text x="716" y="237.0" class="fz-d">Group inquiries to sales</text><polygon points="225.0,266 435.0,266 395.0,340 265.0,340" class="fz f4" stroke-linejoin="round"/><text x="330" y="302" class="fz-n f4t" text-anchor="middle">8</text><text x="330" y="324" class="fz-l f4t" text-anchor="middle">BOOKED</text><line x1="425.0" x2="700" y1="303.0" y2="303.0" class="fz-lead"/><circle cx="700" cy="303.0" r="3" class="fz-dot"/><text x="716" y="299.0" class="fz-k">04 &middot; Booked</text><text x="716" y="319.0" class="fz-d">Accounts booked after engaging</text></svg><svg viewBox="0 0 320 366" class="c-svg fn-svg mob" role="img" aria-labelledby="fT2 fD2"><title id="fT2">B2B funnel</title><desc id="fD2">About 7,300 emails sent to past customers, about 2,100 engagements, about 40 hand-raises sent to sales, and 8 accounts booked after engaging.</desc><polygon points="2.0,6 318.0,6 288.0,66 32.0,66" class="fz f1" stroke-linejoin="round"/><text x="160" y="35" class="fz-n f1t" text-anchor="middle" style="font-size:24px">7,300</text><text x="160" y="54" class="fz-l f1t" text-anchor="middle" style="font-size:9.5px">SENT</text><text x="160" y="85" class="fz-d" text-anchor="middle" style="font-size:12.5px">Emails to past customers</text><polygon points="32.0,96 288.0,96 258.0,156 62.0,156" class="fz f2" stroke-linejoin="round"/><text x="160" y="125" class="fz-n f2t" text-anchor="middle" style="font-size:24px">2,100</text><text x="160" y="144" class="fz-l f2t" text-anchor="middle" style="font-size:9.5px">ENGAGEMENTS</text><text x="160" y="175" class="fz-d" text-anchor="middle" style="font-size:12.5px">Opens + clicks</text><polygon points="62.0,186 258.0,186 232.0,246 88.0,246" class="fz f3" stroke-linejoin="round"/><text x="160" y="215" class="fz-n f3t" text-anchor="middle" style="font-size:24px">~40</text><text x="160" y="234" class="fz-l f3t" text-anchor="middle" style="font-size:9.5px">HAND-RAISES</text><text x="160" y="265" class="fz-d" text-anchor="middle" style="font-size:12.5px">Group inquiries to sales</text><polygon points="88.0,276 232.0,276 210.0,336 110.0,336" class="fz f4" stroke-linejoin="round"/><text x="160" y="305" class="fz-n f4t" text-anchor="middle" style="font-size:24px">8</text><text x="160" y="324" class="fz-l f4t" text-anchor="middle" style="font-size:9.5px">BOOKED</text><text x="160" y="355" class="fz-d" text-anchor="middle" style="font-size:12.5px">Accounts booked after engaging</text></svg></div>
+</figure>
+      </div>
+    </details>
+
+    <details class="sheet" id="ai">
+      <summary>
+        <div class="no"><b>05</b></div>
+        <div class="ttl"><h3>Scaling lifecycle output with AI</h3><p>AI as analyst, editor, QA reviewer and builder, with clear human guardrails.</p><span class="mono">Owner &middot; AI workflows &middot; Automation &middot; QA &middot; 10 product lines</span></div>
+        <div class="met"><b>~65%</b><span>Time saved per task with AI workflows</span></div>
+        <div class="tog" aria-hidden="true"></div>
+      </summary>
+      <div class="body">
+        <div class="kpis">
+          <div><b>4</b><span>AI-built automations in production</span></div>
+          <div><b>Within 2%</b><span>Accuracy of my AI-built conversion forecast, now an automated weekly report</span></div>
+          <div><b>145</b><span>Live workflows and emails audited with Claude in Chrome</span></div>
+        </div>
+        <div class="cols">
+          <div><h4>Secure, responsible AI use</h4><p>Used company-approved AI tools with read-only access to customer systems. Strategy, final copy and every CRM change stayed with me, and every AI output was checked against source data before use. Human review stayed in every step, and the workflows still save nearly a full workday each week.</p></div>
+          <div><h4>Where AI fits</h4><ul>
+            <li><strong>Analyst:</strong> built a conversion forecast as a Claude artifact, using a direct analytics connection (MCP) to our BI data. It landed within 2% of actual conversions.</li>
+            <li><strong>Editor:</strong> set up Claude with our style rules (tone, punctuation and SMS character limits) to refresh, rewrite and proof email and SMS copy across 10 product lines. This replaced most of a separate editorial review cycle.</li>
+            <li><strong>QA:</strong> used Claude in Chrome to audit 145 live CRM workflows and emails, read-only.</li>
+            <li><strong>Builder:</strong> connected Claude to our BI data to build a daily performance monitor: a weekday 8am Slack digest that flags zero sends, broken links and unsubscribe spikes, plus a live dashboard of 7-day trends for every active product line across every series.</li>
+          </ul></div>
+        </div>
+      </div>
+    </details>
+
+  </section>
+
+  <!-- EMAILS -->
+  <section id="emails">
+    <div class="sh"><span class="mono">Sec. 02</span><h2>Email &amp; SMS I've designed</h2><span class="hand">click to see the whole thing</span></div>
+    <div class="board">
+      <button class="pin" data-full="assets/oura-titanium-full.jpg" data-alt="Full Oura Brushed Titanium launch email">
+        <img src="assets/oura-titanium-top.jpg" alt="Oura Brushed Titanium launch email" loading="lazy">
+        <span class="cap"><b>Product launch</b><span class="mono">Oura &middot; Email design</span></span>
+      </button>
+      <button class="pin" data-full="assets/oura-cycle-full.jpg" data-alt="Full Oura Cycle Insights feature email">
+        <img src="assets/oura-cycle-top.jpg" alt="Oura Cycle Insights feature email" loading="lazy">
+        <span class="cap"><b>Feature announcement</b><span class="mono">Oura &middot; Email design</span></span>
+      </button>
+      <div class="pin phone">
+        <div class="device"><div class="screen">
+          <div class="s-head"><div class="av">AF</div><small>AI Foundations</small></div>
+          <div class="s-body" tabindex="0" aria-label="Example SMS nurture messages, scrollable">
+            <div class="s-tag">Lead nurture &middot; Welcome</div>
+            <div class="bub">AI Foundations: Your syllabus is here! Learn work-ready AI skills in 5 weeks, powered by Learning Co.
+
+Get the syllabus: <u>https://go.co/k3v9qd</u>
+
+Questions? Get help: <u>https://go.co/h8r2wn</u>
+
+Recurring msgs. Msg &amp; data rates may apply. Reply HELP for help, STOP to end.</div>
+            <div class="s-tag">Last Chance &middot; Deadline + discount</div>
+            <div class="bub">AI Foundations: Enrollment closes tonight! Last chance to use your tuition discount before it's gone for good.
+
+Enroll today: <u>https://go.co/e9w1zc</u>
+
+Get the syllabus: <u>https://go.co/s5h6jy</u>
+
+Txt STOP to end</div>
+            <div class="s-tag">Conversion nurture &middot; Added start date</div>
+            <div class="bub">AI Foundations: Hi Alex, we added one more class! It starts Monday, Mar 9. Payment plans available. Save your spot: <u>https://go.co/p7m2xa</u>
+
+Txt STOP to end</div>
+            <div class="s-tag">Last Chance &middot; Bonus session</div>
+            <div class="bub">AI Foundations: There's still time! Our Mar 9 bonus session starts tomorrow. Enroll now: <u>https://go.co/b4n8rt</u>
+
+Txt STOP to end</div>
+            <div class="s-tag thread">B2B series &middot; Customers to team deals</div>
+            <div class="bub">Learning Co: You just built university-backed AI skills in a few weeks. Imagine your whole team working this way. Learn about AI training for teams: <u>https://go.co/t2q8lm</u>
+
+Txt STOP to end</div>
+          </div>
+        </div></div>
+        <span class="cap"><b>SMS nurture + B2B</b><span class="mono">Scroll to see more</span></span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sh"><span class="mono">Sec. 03</span><h2>The route so far</h2></div>
+    <div class="route">
+      <div class="stop now"><div class="yr"><span class="mono">2025 &ndash; Now</span></div>
+        <div class="card"><h3>Lifecycle Marketing Manager</h3><div class="hl"><b>+118%</b><span>cross-sell YoY</span></div><div class="co">High-ticket online products, B2C + B2B &middot; Email + SMS owner</div></div></div>
+      <div class="stop"><div class="yr"><span class="mono">2024 &ndash; 2025</span></div>
+        <div class="card"><h3>CRM Manager, Membership &amp; Service</h3><div class="hl"><b>2M+</b><span>members reached</span></div><div class="co">Frontdoor &middot; Contract &middot; SMS compliance relaunch</div></div></div>
+      <div class="stop"><div class="yr"><span class="mono">2023 &ndash; 2024</span></div>
+        <div class="card"><h3>Senior Lifecycle Marketing Specialist</h3><div class="hl"><b>83%</b><span>faster production</span></div><div class="co">Oura &middot; Email, SMS, in-app &middot; 5+ markets</div></div></div>
+      <div class="stop"><div class="yr"><span class="mono">2021 &ndash; 2023</span></div>
+        <div class="card"><h3>Lead Lifecycle Marketing Specialist</h3><div class="hl"><b>+67%</b><span>SMS demand vs. target</span></div><div class="co">Zulily &middot; Email + SMS &middot; 13M+ users</div></div></div>
+      <div class="pivot hand">&uarr; the pivot: from factory floor to funnels</div>
+      <div class="stop eng"><div class="yr"><span class="mono">4 years</span></div>
+        <div class="card"><h3>Manufacturing Engineer</h3><div class="hl"><b>B.S.</b><span>Mechanical Eng.</span></div><div class="co">Aerospace &middot; Process improvement &middot; University of Pittsburgh</div></div></div>
+    </div>
+  </section>
+
+  <!-- BOM -->
+  <section id="skills">
+    <div class="sh"><span class="mono">Sec. 04</span><h2>Bill of materials</h2><span class="hand">a.k.a. skills</span></div>
+    <table class="bom">
+      <thead><tr><th>Item</th><th>Component</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>Strategy</td><td>Lifecycle strategy, journey design, segmentation, retention, cross-sell, B2B nurture</td></tr>
+        <tr><td>02</td><td>Channels</td><td>Email, SMS, push, in-app</td></tr>
+        <tr><td>03</td><td>Platforms</td><td>Braze, HubSpot, Iterable, Salesforce, Marketo, Attentive, SendGrid</td></tr>
+        <tr><td>04</td><td>Data</td><td>SQL, Snowflake, Looker, Tableau, Google Analytics, A/B and multivariate testing</td></tr>
+        <tr><td>05</td><td>AI</td><td>Claude, ChatGPT, custom GPTs, Zapier, Make, Braze AI, prompt engineering</td></tr>
+        <tr><td>06</td><td>Ops &amp; QA</td><td>SOPs, QA, Liquid, HTML/CSS, Figma, TCPA and CAN-SPAM compliance</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact" id="contact">
+    <div><h2>Let's build something.</h2><p>Open to remote, full-time lifecycle and CRM marketing roles.</p></div>
+    <div class="links">
+      <a href="mailto:shaerosemore@gmail.com">Email <span>&rarr;</span></a>
+      <a href="https://www.linkedin.com/in/shaerosemore/" target="_blank" rel="noopener">LinkedIn <span>&rarr;</span></a>
+    </div>
+  </div>
+
+  <footer class="mono"><span>&copy; 2026 Shae Rosemore</span><span>Lifecycle, engineered.</span></footer>
+</div>
+
+<dialog class="lightbox" id="lightbox"><button class="x" aria-label="Close">&times;</button><img alt=""></dialog>
+
+<script>
+
+  // Blueprint mode
+  var modeBtn = document.getElementById('mode');
+  modeBtn.addEventListener('click', function () {
+    var bp = document.documentElement.dataset.mode === 'blueprint';
+    document.documentElement.dataset.mode = bp ? 'paper' : 'blueprint';
+    modeBtn.textContent = bp ? 'Blueprint mode' : 'Paper mode';
+  });
+  // Loop nodes open the matching sheet
+  function go(id) { var d = document.getElementById(id); d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('.node').forEach(function (n) {
+    n.addEventListener('click', function () { go(n.dataset.go); });
+    n.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(n.dataset.go); } });
+  });
+  // Lightbox
+  var lb = document.getElementById('lightbox');
+  document.querySelectorAll('.pin[data-full]').forEach(function (p) {
+    p.addEventListener('click', function () { var i = lb.querySelector('img'); i.src = p.dataset.full; i.alt = p.dataset.alt; lb.showModal(); lb.scrollTop = 0; });
+  });
+  lb.querySelector('.x').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+</script>
+</body>
+</html>
